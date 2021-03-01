@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      	google.charts.load('current', {'packages':['corechart']});
+      	google.charts.setOnLoadCallback(drawChart);
+		let request = new XMLHttpRequest();
+		request.open('GET', "https://api.covid19india.org/data.json");
+		request.responseType = 'json';
+		request.send();
+		var arr = []
+		var d = new Date()
+		day = d.getDate()
+		month = d.toDateString().substring(4, 7)
+		year = d.getFullYear()
+		request.onload = function() {
+			var data = request.response;
+			var cases = Number(data["statewise"][0]["confirmed"]);
+			for(var i = 0; i < 19; i++){
+				var data_piece = [String(day).concat(" ", month, " ", year), Math.round(cases)]
+				arr.push(data_piece);
+				d.setDate(d.getDate() + 10)
+				day = d.getDate()
+				month = d.toDateString().substring(4, 7)
+				year = d.getFullYear()
+				for(var j = 0; j < 10; j++){
+					cases += (cases*0.0335578);
+					
+				}
+			}
+		}
+      	function drawChart() {
+			e1 = arr[0];
+			e2 = arr[1];
+			e3 = arr[2];
+			e4 = arr[3];
+			e5 = arr[4];
+			e6 = arr[5];
+			e7 = arr[6];
+			e8 = arr[7];
+			e9 = arr[8];
+			e10 = arr[9];
+			e11 = arr[10];
+			e12 = arr[11];
+			e13 = arr[12];
+			e14 = arr[13];
+			e15 = arr[14];
+			e16 = arr[15];
+			e17 = arr[16];
+			e18 = arr[17];
+			e19 = arr[18];
+			var graph = google.visualization.arrayToDataTable([['Date','Confirmed Cases'],e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19]);
+
+			var options = {
+				title: 'Projection of Confirmed COVID Cases In India (Based on 21-day Doubling rate)',
+				hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+				vAxis: {minValue: 0},
+				colors: ["red", "#ff0000"], 
+				fontSize: 10,
+				legend: {
+					position: "none"
+				},
+				titleTextStyle: {color: "#ff0000"}
+			};
+
+			var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+			chart.draw(graph, options);
+      	}
+</script>
+<div id="chart_div" style="width: 90%; height: 700px;"></div>
